@@ -17,7 +17,6 @@
       href="https://fonts.googleapis.com/css?family=Coiny&display=swap"
       rel="stylesheet"
     />
-
     <!-- Bootstrap -->
     <script
       src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -34,7 +33,6 @@
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
       crossorigin="anonymous"
     ></script>
-
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -43,6 +41,32 @@
     />
   </head>
   <body class="body">
+    <style>
+
+.loader {
+  border: 10px solid #F3F3F3;
+  border-top: 10px solid #C271FF;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 2s linear infinite;
+  display: none; /* hidden initially */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1050; /* above everything */
+}
+.carousel-inner.hidden {
+  visibility: hidden; /* hide slides but keep layout size */
+}
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+
+    </style>
     <header class="header">
       <div class="container">
         <nav class="navbar navbar-expand-sm navbar-dark pt-4 px-0">
@@ -90,7 +114,6 @@
             </ul>
           </div>
         </nav>
-
         <section class="hero text-center text-white">
           <h1 class="font-weight-bold my-0">Get schooled</h1>
           <ul
@@ -110,25 +133,25 @@
             <div class="col-6 col-md-3 pro1">
               <img src="images/profile_1.jpg" alt="profile 1" />
               <h3>Phillip Massey</h3>
-              <span>« Smile of the year »</span>
+              <span>« Smile of the year »</span>
               <span>2018 - 2019</span>
             </div>
             <div class="col-6 col-md-3 pro2">
               <img src="images/profile_2.jpg" alt="profile 2" />
               <h3>Nannie Lawrence</h3>
-              <span>Best « little smile »</span>
+              <span>Best « little smile »</span>
               <span>2017</span>
             </div>
             <div class="col-6 col-md-3 pro3">
               <img src="images/profile_3.jpg" alt="profile 3" />
               <h3>Bruce Walters</h3>
-              <span>Best « Friend Smile »</span>
+              <span>Best « Friend Smile »</span>
               <span>live performance 2019</span>
             </div>
             <div class="col-6 col-md-3 pro4">
               <img src="images/profile_4.jpg" alt="profile 4" />
               <h3>Henry Hughes</h3>
-              <span>« 24h smiles » winner</span>
+              <span>« 24h smiles » winner</span>
               <span>2016 - 2019</span>
             </div>
           </div>
@@ -143,6 +166,7 @@
             class="carousel slide"
             data-ride="carousel"
           >
+           <div id="carouselLoader" class="loader"></div>
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <div class="row mx-auto align-items-center">
@@ -156,7 +180,7 @@
                   <div class="col-12 col-sm-7 offset-sm-2 col-lg-9 offset-lg-0">
                     <div class="quote-text">
                       <p class="text-white">
-                        « Those tutorials are concise and go straight to the
+                        « Those tutorials are concise and go straight to the
                         point. I can’t think of a better place to learn smiling.
                         And it’s so fun!
                       </p>
@@ -170,7 +194,7 @@
                 <div class="row mx-auto align-items-center">
                   <div class="col-12 col-sm-2 col-lg-2 offset-lg-1 text-center">
                     <img
-                      src="images/profile_5.jpg"
+                      src="images/profile_2.jpg"
                       class="d-block align-self-center"
                       alt="Carousel Pic 1"
                     />
@@ -178,7 +202,7 @@
                   <div class="col-12 col-sm-7 offset-sm-2 col-lg-9 offset-lg-0">
                     <div class="quote-text">
                       <p class="text-white">
-                        « Those tutorials are concise and go straight to the
+                        « Those tutorials are concise and go straight to the
                         point. I can’t think of a better place to learn smiling.
                         And it’s so fun!
                       </p>
@@ -192,7 +216,7 @@
                 <div class="row mx-auto align-items-center">
                   <div class="col-12 col-sm-2 col-lg-2 offset-lg-1 text-center">
                     <img
-                      src="images/profile_5.jpg"
+                      src="images/profile_3.jpg"
                       class="d-block align-self-center"
                       alt="Carousel Pic 1"
                     />
@@ -200,7 +224,7 @@
                   <div class="col-12 col-sm-7 offset-sm-2 col-lg-9 offset-lg-0">
                     <div class="quote-text">
                       <p class="text-white">
-                        « Those tutorials are concise and go straight to the
+                        « Those tutorials are concise and go straight to the
                         point. I can’t think of a better place to learn smiling.
                         And it’s so fun!
                       </p>
@@ -241,5 +265,33 @@
         </div>
       </section>
     </main>
+   <script>
+  $(document).ready(function () {
+    const $loader = $("#carouselLoader");
+    const $carousel = $("#carouselExampleControls");
+    const $carouselInner = $carousel.find(".carousel-inner");
+    // Stop autoplay
+    $carousel.carousel({ interval: false });
+    let clickCount = 0; // keep track of arrow clicks
+    $(".carousel-control-prev, .carousel-control-next").on("click", function (e) {
+      e.preventDefault();
+      const action = $(this).hasClass("carousel-control-next") ? "next" : "prev";
+      clickCount++;
+      if (clickCount % 3 === 0) {
+        // Every 3rd click → show loader
+        $carouselInner.addClass("hidden");
+        $loader.show();
+        setTimeout(() => {
+          $loader.hide();
+          $carouselInner.removeClass("hidden");
+          $carousel.carousel(action);
+        }, 500);
+      } else {
+        // Normal slide change
+        $carousel.carousel(action);
+      }
+    });
+  });
+</script>
   </body>
 </html>
